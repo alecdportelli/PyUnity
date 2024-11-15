@@ -1,13 +1,15 @@
 from .Server import Server
 
-import socket
 from PIL import Image
 from io import BytesIO
+import os
 
 
 class ImageServer( Server ):
-    def __init__(self, host="127.0.0.1", port=65432, logging=True):
+    def __init__(self, host="127.0.0.1", port=65432, logging=True, collectPath=None):
         super().__init__(host, port, logging)
+        self.collectPath = collectPath
+        self.i = 0
 
 
     def Recieve(self):
@@ -33,7 +35,12 @@ class ImageServer( Server ):
             if len(imgData) == imgSize:
                 # Convert the received byte data to an image
                 image = Image.open(BytesIO(imgData))
-                image.show()
+                # image.show() # TODO: Can process more here
+
+                if self.collectPath is not None:
+                    imgPath = os.path.join(self.collectPath, f'img_{self.i}.png')
+                    image.save(imgPath)
+                    self.i += 1
             else:
                 print("Image data is incomplete!")
         
