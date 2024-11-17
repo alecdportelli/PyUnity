@@ -1,4 +1,5 @@
 from .Server import Server
+from Utils.Constants import *
 
 from PIL import Image
 from io import BytesIO
@@ -24,9 +25,9 @@ class ImageServer( Server ):
             # Header value
             dataType = header[0]
 
-            if dataType == 1:  # Image data
+            if dataType == IMAGE_DATA_TYPE:  # Image data
                 self.ReceiveImage()
-            elif dataType == 2:  # State vector data
+            elif dataType == STATE_VEC_DATA_TYPE:  # State vector data
                 self.ReceiveStateVector()
         
         # Close the connection when done
