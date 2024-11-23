@@ -13,15 +13,15 @@ def IK3D(x, y, z, l1, l2):
         l2 (float): Length of the second link.
 
     Returns:
-        tuple: The elbow up solution in degrees 
+        List: The elbow up solution in degrees 
     """
-    theta0 = np.arctan2(z, x)
+    theta0 = np.arctan2(x, z)
     planarDistance = np.sqrt( x**2 + z**2 )
 
     _, elbowUp = IK2D(planarDistance, y, l1, l2)
-    return (np.rad2deg( theta0 ),
+    return [np.rad2deg( theta0 ),
             90 - np.rad2deg( elbowUp[0] ),
-            -1 * np.rad2deg( elbowUp[1] ))
+            -1 * np.rad2deg( elbowUp[1] )]
 
 
 def IK2D(x, y, l1, l2):
