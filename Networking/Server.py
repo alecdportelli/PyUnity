@@ -22,13 +22,21 @@ class Server:
 
     def Recieve(self):
         """ Start recieving the data """
-        while True:
-            data = self.conn.recv(1024).decode('utf-8')
-            if not data:
-                break
+        try:
+            while True:
+                data = self.conn.recv(1024).decode('utf-8')
+                if not data:
+                    break
 
-            if self.logging:
-                print(f"Received from Unity: {data}")
+                if self.logging:
+                    print(f"Received from Unity: {data}")
+
+        except KeyboardInterrupt:
+            print("\nServer is shutting down...")
+        except Exception as e:
+            print(f"Error: {e}")
+        finally:
+            self.close_connection()
 
         print("No longer connected!")
         self.conn.close()
